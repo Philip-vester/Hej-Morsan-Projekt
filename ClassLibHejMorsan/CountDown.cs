@@ -1,123 +1,101 @@
-// Possibly unnecessary? If we have all our functions in Person.cs
-
-
-// // Everything handling The Countdowns
-// class CountDown
-// {
-
-// int InitialDays=3;
-// int CountDownTick=3;
-// int  CountDownOverdue=0;
-
-//         // Decreases the countdown
-//         public void decrease()
-//             {
-//                 CountDownTick--;
-//             }
-//         // Is it time to call mom?
-//         public bool TimeToCallMom()
-//             {
-//             if(CountDownTick==0)
-//             {
-//                 System.Console.WriteLine("Time To call mom");
-//                 return true;
-//             }
-//             else if (CountDownTick <0)
-//             {
-//                 return true;
-//             }
-//             return false;
-//             }
-//         // If you don't call mom this starts to tick
-//         public int Overdue()
-//         {
-//             if(CountDownTick<=-1)
-//             {
-//                 CountDownOverdue++;
-//             }
-//             return CountDownOverdue;
-//         }
-//         // Mom has been called and the counter resets to her initialdays
-//         public int MomHasBeenCalled()
-//         {
-//             CountDownTick = InitialDays;
-//             return CountDownTick;
-//         }
-//         // Switch to handle choices, you either call mom or ignore her
-//         public void ChooseToCallMom(int choice)
-//         {
-//         switch(choice)
-//             {
-//                 case 1:
-//                 {
-//                     MomHasBeenCalled();
-//                 }break;
-//                 case 0:
-//                 {
-//                     Overdue();
-//                 }break;
-//             }
-//         }
-// }
 namespace ClassLibHejMorsan
 {
     // Everything handling The Countdowns
-    class CountDown
+    public class CountDown
     {
-        int InitialDays = 3;
-        int CountDownTick = 3;
-        int CountDownOverdue = 0;
 
-        // Decreases the countdown
-        public void decrease()
+        public bool LoopThroughList()
         {
-            CountDownTick--;
+            bool timeToCall = false;
+            foreach (var item in DB.myPersons)
+            {
+                timeToCall = TimeToCallMom(item);
+            }
+            return timeToCall;
         }
+
         // Is it time to call mom?
-        public bool TimeToCallMom()
+        public bool TimeToCallMom(Person Person)
         {
-            if (CountDownTick == 0)
-            {
-                System.Console.WriteLine("Time To call mom");
-                return true;
-            }
-            else if (CountDownTick < 0)
+            Person.CountDownTick--;
+
+            if (Person.CountDownTick <= 0)
             {
                 return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
+
         // If you don't call mom this starts to tick
-        public int Overdue()
+        public int Overdue(Person Person)
         {
-            if (CountDownTick <= -1)
+            int CountDownOverdue = 0;
+
+            if (Person.CountDownTick <= -1)
             {
                 CountDownOverdue++;
             }
             return CountDownOverdue;
         }
+
         // Mom has been called and the counter resets to her initialdays
-        public int MomHasBeenCalled()
+        public int MomHasBeenCalled(Person Person)
         {
-            CountDownTick = InitialDays;
-            return CountDownTick;
-        }
-        // Switch to handle choices, you either call mom or ignore her
-        public void ChooseToCallMom(int choice)
-        {
-            switch (choice)
+            int number = 0;
+            foreach (var item in DB.myPersons)
             {
-                case 1:
-                    {
-                        MomHasBeenCalled();
-                    }
-                    break;
-                case 0:
-                    {
-                        Overdue();
-                    }
-                    break;
+                item.CountDownTick = item.initialDays;
+                number = item.CountDownTick;
             }
+            return number;
         }
+
+        // // Switch to handle choices, you either call mom or ignore her
+        // public void ChooseToCallMom(int choice)
+        // {
+        //     switch (choice)
+        //     {
+        //         case 1:
+        //             {
+        //                 MomHasBeenCalled();
+        //             }
+        //             break;
+        //         case 0:
+        //             {
+        //                 Overdue();
+        //             }
+        //             break;
+        //     }
+        // }
+
+        // public void RunCountDown()
+        // {
+        //     bool TimeToCall = this.TimeToCallMom();
+
+        //     foreach (Person person in DB.myPersons)
+        //     {
+
+        //         //En variabel som ändras beroende på countdowntick. Skickas sedan vidare till en switch i main som skriver ut det som är kopplat till siffran.
+        //         int variable;
+
+        //         if (person.CountDownTick > 0)
+        //         {
+
+        //             // Skall flyttas till main: System.Console.WriteLine($"{person.name}: {person.CountDownTick} days left");
+        //             variable = 1;
+        //         }
+        //         else if (person.CountDownTick <= -1)
+        //         {
+        //             //Skall flyttas till main: System.Console.WriteLine($"{person.name}: {person.CountDownOverdue} days overdue.");
+        //             variable = 2;
+        //         }
+        //         Decrease();
+        //     }
+        // }
     }
+
+
 }
